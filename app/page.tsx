@@ -1,7 +1,9 @@
 "use client";
-import Image from "next/image";
-import { Login } from "./components/login";
 import { useState } from "react";
+import Link from "next/link";
+import React from "react";
+import Lottie from "lottie-react";
+import groovyWalkAnimation from "../public/loginAnimation.json";
 
 export default function Home() {
   const [email, setEmail] = useState<string>();
@@ -23,7 +25,7 @@ export default function Home() {
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="input input-bordered w-full bg-gray-100 border-2"
+                className="input input-bordered w-full bg-gray-100 border-2 py-4"
                 required
               />
               <div>
@@ -38,9 +40,21 @@ export default function Home() {
                   required
                 />
               </div>
+              <button className="bg-blue-800 w-full mt-4 p-4 rounded-2xl">
+                <Link href={"/pages/home"} className=" text-white font-bold">
+                  Login
+                </Link>
+              </button>
+            </div>
+            <div className="absolute bottom-5 flex gap-2">
+              <p className="text-black">Don&apos;t have an account ?</p>
+              <Link href={"/pages/signup"} className="text-blue-700">Signup</Link>
             </div>
           </div>
-          <div className="w-1/2 h-full bg-blue-100"></div>
+          <div className="flex flex-col justify-center items-center w-1/2 h-full bg-blue-100">
+            <Lottie animationData={groovyWalkAnimation} loop={true} />
+            <p className="px-4 mt-10 text-black font-semibold text-center">Welcome to our notes website! Safeguard your thoughts with ease as you unlock your personalized space on our secure platform, tailored just for you</p>
+          </div>
         </div>
       </div>
     </div>
