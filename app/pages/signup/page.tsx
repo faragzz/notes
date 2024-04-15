@@ -44,7 +44,7 @@ export default function Home() {
               </div>
               <Link href={"/"} className=" text-white font-bold">
                 <button className="bg-blue-800 w-full mt-4 p-4 rounded-2xl">
-                  Login
+                  SignUp
                 </button>
               </Link>
             </div>
