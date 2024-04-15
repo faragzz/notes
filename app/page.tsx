@@ -40,20 +40,26 @@ export default function Home() {
                   required
                 />
               </div>
-              <button className="bg-blue-800 w-full mt-4 p-4 rounded-2xl">
-                <Link href={"/pages/home"} className=" text-white font-bold">
+              <Link href={"/pages/home"} className=" text-white font-bold">
+                <button className="bg-blue-800 w-full mt-4 p-4 rounded-2xl">
                   Login
-                </Link>
-              </button>
+                </button>
+              </Link>
             </div>
             <div className="absolute bottom-5 flex gap-2">
               <p className="text-black">Don&apos;t have an account ?</p>
-              <Link href={"/pages/signup"} className="text-blue-700">Signup</Link>
+              <Link href={"/pages/signup"} className="text-blue-700">
+                Signup
+              </Link>
             </div>
           </div>
           <div className="flex flex-col justify-center items-center w-1/2 h-full bg-blue-100">
             <Lottie animationData={groovyWalkAnimation} loop={true} />
-            <p className="px-4 mt-10 text-black font-semibold text-center">Welcome to our notes website! Safeguard your thoughts with ease as you unlock your personalized space on our secure platform, tailored just for you</p>
+            <p className="px-4 mt-10 text-black font-semibold text-center">
+              Welcome to our notes website! Safeguard your thoughts with ease as
+              you unlock your personalized space on our secure platform,
+              tailored just for you
+            </p>
           </div>
         </div>
       </div>

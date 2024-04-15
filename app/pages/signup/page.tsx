@@ -42,11 +42,11 @@ export default function Home() {
                   required
                 />
               </div>
-              <button className="bg-blue-800 w-full mt-4 p-4 rounded-2xl">
-                <Link href={"/"} className=" text-white font-bold">
+              <Link href={"/"} className=" text-white font-bold">
+                <button className="bg-blue-800 w-full mt-4 p-4 rounded-2xl">
                   Login
-                </Link>
-              </button>
+                </button>
+              </Link>
             </div>
           </div>
           <div className="flex flex-col justify-center items-center w-1/2 h-full bg-blue-100">
