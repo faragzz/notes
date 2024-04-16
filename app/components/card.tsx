@@ -31,12 +31,14 @@ export const Card = ({ color, title, content, date }: Props) => {
             <p className="">Edit note</p>
           </div>
         ) : (
-          <div>
-            <p className="font-bold pb-2">{title}</p>
-            <p>{content}</p>
-            <p className="absolute bottom-1 right-1 text-black">
-              {formattedDate}
-            </p>
+          <div className="flex flex-col w-full h-full">
+            <div className="flex-grow-1">
+              <p className="font-bold pb-2">{title}</p>
+              <p>{content}</p>
+            </div>
+            <div className="mt-auto">
+              <p className="text-black self-end text-right">{formattedDate}</p>
+            </div>
           </div>
         )}
       </div>
