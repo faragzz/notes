@@ -8,9 +8,7 @@ import React from "react";
 import { BiSolidCalendarEdit, BiSolidNotepad } from "react-icons/bi";
 import Link from "next/link";
 
-type Props = {};
-
-const Home = (props: Props) => {
+const Home = () => {
   const notes: Note[] = generateRandomNotes(20);
   return (
     <>
@@ -28,7 +26,6 @@ const Home = (props: Props) => {
             <div className="flex items-center hover:bg-gray-200 rounded-xl mt-8 p-4">
               <BiSolidNotepad className="text-black" size={20} />
               <p className="text-black font-semibold text-sm ml-2">
-                {" "}
                 Show All Notes
               </p>
             </div>
