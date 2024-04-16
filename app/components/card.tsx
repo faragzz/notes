@@ -19,7 +19,7 @@ export const Card = ({ color, title, content, date }: Props) => {
   });
 
   return (
-    <Link href={"/pages/note"}>
+    <Link href={"/pages/note/edit"}>
       <div
         className={`relative ${color} w-60 h-60 rounded-xl text-black p-4`}
         onMouseEnter={() => setIsHovered(true)}

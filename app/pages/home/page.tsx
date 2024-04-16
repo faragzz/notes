@@ -19,12 +19,12 @@ const Home = (props: Props) => {
         {/* left */}
         <div className="flex flex-col h-screen w-72 gap-8 mr-8">
           <div className="ml-8">
-            <div className="flex items-center mt-10 hover:bg-gray-200 rounded-xl p-4">
-              <BiSolidCalendarEdit className="text-black" size={20} />
-              <Link href={"/pages/note"}>
+            <Link href={"/pages/note/add_note"}>
+              <div className="flex items-center mt-10 hover:bg-gray-200 rounded-xl p-4">
+                <BiSolidCalendarEdit className="text-black" size={20} />
                 <p className="text-black font-semibold text-sm ml-2">Add new</p>
-              </Link>
-            </div>
+              </div>
+            </Link>
             <div className="flex items-center hover:bg-gray-200 rounded-xl mt-8 p-4">
               <BiSolidNotepad className="text-black" size={20} />
               <p className="text-black font-semibold text-sm ml-2">
