@@ -13,37 +13,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// export type Note = {
-//     title:string,
-//     content:string,
-//     color:string,
-//     date:Date
-// }
-// export const Color =['bg-yellow-100','bg-red-100','bg-yellow-200','bg-blue-100'];
-// export type user = {
-//     name:string,
-//     email:string,
-//     password:string,
-//     notes:Note[]
-// }
-// schema.prisma
-
 // Define the Note model
 model Note {
-  id      String   @id
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
   title   String
   content String
   color   String
   date    DateTime
-
-  // Define the relationship with User model
+  userId  String   @db.ObjectId
+  user    User     @relation(fields: [userId], references: [id])
 }
 
-// Define the User model
 model User {
-  id       String @id @default(autoincrement())
-  name     String
-  email    String @unique
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  email    String  @unique
+  name     String?
   password String
   notes    Note[]
 }
