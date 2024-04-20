@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// export type Note = {
+//     title:string,
+//     content:string,
+//     color:string,
+//     date:Date
+// }
+// export const Color =['bg-yellow-100','bg-red-100','bg-yellow-200','bg-blue-100'];
+// export type user = {
+//     name:string,
+//     email:string,
+//     password:string,
+//     notes:Note[]
+// }
+// schema.prisma
+
+// Define the Note model
+model Note {
+  id      String   @id
+  title   String
+  content String
+  color   String
+  date    DateTime
+
+  // Define the relationship with User model
+}
+
+// Define the User model
+model User {
+  id       String @id @default(autoincrement())
+  name     String
+  email    String @unique
+  password String
+  notes    Note[]
+}
