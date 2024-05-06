@@ -1,10 +1,34 @@
-export const handleSubmit=({title,content,type}:{title:string,content:string,type:boolean})=>{
-    /* 
-    (type)
-    add note->true edit->false
-    */
-    console.log("title :",title," content :",content);
+import { User } from "@prisma/client";
+import { UserLoginInfo } from "../core/types";
 
-    // send edit data or send new data to be saved
-    
-}
+export const signUpUser = async (userInfo: UserLoginInfo) => {
+  try {
+    const response = await fetch("/api/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userInfo),
+    });
+    const responseData: User = await response.json();
+    console.log(responseData);
+  } catch (error) {
+    console.error("Error creating user:", error);
+  }
+};
+
+export const loginUser = async (userInfo:UserLoginInfo) => {
+  try {
+    const response = await fetch("/api/user", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userInfo),
+    });
+    const responseData: User = await response.json();
+    console.log(responseData);
+  } catch (error) {
+    console.error("Error SignIn user:", error);
+  }
+};

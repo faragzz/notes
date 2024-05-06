@@ -17,7 +17,8 @@ function AutohideSnackbar({
           severity="success"
           variant="filled"
           sx={{ width: "100%" }}
-        >{message}</Alert>
+        >{message
+        }</Alert>
       </Snackbar>
   );
 }

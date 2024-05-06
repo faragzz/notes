@@ -1,13 +1,21 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import React from "react";
 import Lottie from "lottie-react";
 import groovyWalkAnimation from "../../../public/loginAnimation.json";
+import { signUpUser } from "@/app/util/handle";
+import { noteDefualt, UserInfo } from "@/app/core/types";
+import { useRouter } from "next/navigation";
 
-export default function Home() {
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
+const handleSumbit = (name: string, email: string, password: string) => {
+  signUpUser({ name, email, password });
+};
+
+export default function SignUp() {
+  const router = useRouter();
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   return (
     <div className="flex justify-center items-center w-full h-screen relative">
       <div className="-z-10 w-full h-full absolute">
@@ -18,18 +26,30 @@ export default function Home() {
         <div className="absolute flex flex-row w-full h-full rounded-6xl drop-shadow-2xl  overflow-hidden">
           <div className="flex justify-center items-center w-1/2 h-full bg-gray-50">
             {/* <Login/> */}
-            <div>
+            <div className="flex flex-col gap-1">
               <p className="text-4xl text-black font-bold text-center">
                 SignUp
               </p>
-              <label className="text-gray-500 font-readex-pro">Email</label>
-              <input
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="input input-bordered w-full bg-gray-100 border-2 py-4"
-                required
-              />
+              <div>
+                <label className="text-gray-500 font-readex-pro">Name</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="input input-bordered w-full bg-gray-100 border-2 py-4"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-gray-500 font-readex-pro">Email</label>
+                <input
+                  type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="input input-bordered w-full bg-gray-100 border-2 py-4"
+                  required
+                />
+              </div>
               <div>
                 <label className="text-gray-500 font-readex-pro">
                   Password
@@ -42,11 +62,15 @@ export default function Home() {
                   required
                 />
               </div>
-              <Link href={"/"} className=" text-white font-bold">
-                <button className="bg-blue-800 w-full mt-4 p-4 rounded-2xl">
-                  SignUp
-                </button>
-              </Link>
+              <button
+                onClick={() => {
+                  handleSumbit(name, email, password);
+                  router.push("/");
+                }}
+                className="bg-blue-800 w-full mt-4 p-4 rounded-2xl text-white font-bold"
+              >
+                SignUp
+              </button>
             </div>
           </div>
           <div className="flex flex-col justify-center items-center w-1/2 h-full bg-blue-100">

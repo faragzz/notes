@@ -1,5 +1,4 @@
 "use client";
-import { handleSubmit } from "@/app/util/handle";
 import React, { useEffect, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { NoteType } from "@/app/core/types";
@@ -51,7 +50,7 @@ const Note = ({
             className="bg-blue-600 w-full mt-4 p-4 rounded-2xl text-white font-bold text-xl"
             onClick={() => {
               setOpen(true);
-              handleSubmit({ title, content, type });
+              // handleSubmit({ title, content, type });
               setTimeout(() => {
                 setOpen(false);
                 router.push("/pages/home");
