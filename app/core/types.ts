@@ -11,3 +11,10 @@ export type user = {
     password:string,
     notes:Note[]
 }
+
+export type NoteType = {
+    title:string,
+    content:string,
+    color:string,
+    date:string
+}

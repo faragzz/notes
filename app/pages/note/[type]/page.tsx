@@ -1,21 +1,23 @@
 "use client";
 import { handleSubmit } from "@/app/util/handle";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
-import { useSearchParams } from "next/navigation";
-
-const Note = ({ params }: { params: { type: string } }) => {
-  const [title, setTitle] = useState<string>(" ");
-  const [content, setContent] = useState<string>(" ");
-  // add note->true edit->false
+import { NoteType } from "@/app/core/types";
+import AutohideSnackbar from "@/app/components/AutohideSnackbar";
+import { useRouter } from "next/navigation";
+const Note = ({
+  params,
+  searchParams,
+}: {
+  params: { type: string };
+  searchParams: NoteType;
+}) => {
+  const [title, setTitle] = useState<string>((searchParams)? searchParams.title:"");
+  const [content, setContent] = useState<string>((searchParams)? searchParams.content:"");
+  const [open, setOpen] = React.useState(false);
+  const router = useRouter();
+  // add note->false | edit->true
   const type = params.type === "edit" ? true : false;
-
-  if (type) {
-    // fkewjfk
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const searchParams = useSearchParams();
-    console.log(searchParams.get("")); // Logs "search"
-  }
 
   return (
     <div className="flex flex-col justify-center items-center h-screen w-full bg-gray-100 p-8 ">
@@ -42,9 +44,19 @@ const Note = ({ params }: { params: { type: string } }) => {
             }}
             className="input input-bordered w-full py-3 resize-none bg-gray-100/95 text-black"
           />
+          <div>
+            <AutohideSnackbar state={open}  message="Book Saved successfully"/>;
+          </div>
           <button
             className="bg-blue-600 w-full mt-4 p-4 rounded-2xl text-white font-bold text-xl"
-            onClick={() => handleSubmit({ title, content, type })}
+            onClick={() => {
+              setOpen(true);
+              handleSubmit({ title, content, type });
+              setTimeout(() => {
+                setOpen(false);
+                router.push("/pages/home");
+              }, 1000);
+            }}
           >
             Save Note
           </button>
