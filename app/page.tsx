@@ -4,10 +4,17 @@ import Link from "next/link";
 import React from "react";
 import Lottie from "lottie-react";
 import groovyWalkAnimation from "../public/loginAnimation.json";
+import AutohideSnackbar from "./components/AutohideSnackbar";
+import { useRouter } from "next/navigation";
+import { loginUser } from "./util/handle";
+import AutohideSnackbarError from "./components/AutohideSnackbarError";
 
 export default function Home() {
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [open, setOpen] = useState(false);
+  const [openError, setOpenError] = useState(false);
+  const router = useRouter();
   return (
     <div className="flex justify-center items-center w-full h-screen relative">
       <div className="-z-10 w-full h-full absolute">
@@ -40,11 +47,32 @@ export default function Home() {
                   required
                 />
               </div>
-              <Link href={"/pages/home"} className=" text-white font-bold">
-                <button className="bg-blue-800 w-full mt-4 p-4 rounded-2xl">
-                  Login
-                </button>
-              </Link>
+              <button
+                onClick={async () => {
+                  try {
+                    const data = await loginUser({ email, password });
+                    console.log(data);
+                    if (data) {
+                      setOpen(true);
+                      setTimeout(() => {
+                        setOpen(false);
+                        router.push("/pages/home");
+                      }, 1000);
+                    } else {
+                      setOpenError(true);
+                      setTimeout(() => {
+                        setOpenError(false);
+                      }, 1000);
+                    }
+                  } catch (error) {
+                    console.error("Error logging in:", error);
+                    setOpen(true); // Show error snackbar
+                  }
+                }}
+                className="bg-blue-800 w-full mt-4 p-4 rounded-2xl text-white font-bold"
+              >
+                Login
+              </button>
             </div>
             <div className="absolute bottom-5 flex gap-2">
               <p className="text-black">Don&apos;t have an account ?</p>
@@ -63,6 +91,8 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <AutohideSnackbar message="User Logged In Successfully" state={open} />;
+      <AutohideSnackbarError message="User Not Found" state={openError} />;
     </div>
   );
 }

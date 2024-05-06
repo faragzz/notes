@@ -1,12 +1,12 @@
-import { UserInfo, UserLoginInfo } from "@/app/core/types";
+import { UserInfo, UserLoginInfo, UserSignUpInfo } from "@/app/core/types";
 import prisma from "./prisma";
 
 // SignIn and Login
-export const createUser = async (userLoginInfo: UserLoginInfo) => {
+export const createUser = async (userSignUpInfo: UserSignUpInfo) => {
   const user: UserInfo = {
-    email: userLoginInfo.email,
-    name: userLoginInfo.name,
-    password: userLoginInfo.password,
+    email: userSignUpInfo.email,
+    name: userSignUpInfo.name,
+    password: userSignUpInfo.password,
     notes: {
       create: [], // Empty array of NoteCreateInput objects
     },
@@ -19,13 +19,17 @@ export const createUser = async (userLoginInfo: UserLoginInfo) => {
 };
 
 export const checkUser = async (userLoginInfo: UserLoginInfo) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      email: userLoginInfo.email,
-    },
-  });
-  if (user) return user;
-  else return -1;
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: userLoginInfo.email,
+      },
+    });
+    console.log("user = ", user);
+    return user;
+  } catch (error) {
+    console.error("Error retrieving user:", error);
+  }
 };
 
 // Notes

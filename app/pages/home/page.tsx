@@ -7,9 +7,6 @@ import { generateRandomNotes } from "@/app/mocks/generateRandomNotes";
 import React from "react";
 import { BiSolidCalendarEdit, BiSolidNotepad } from "react-icons/bi";
 import Link from "next/link";
-const handleSumbit = (email:string,password:string)=>{
-
-}
 
 const Home = () => {
   const notes: Note[] = generateRandomNotes(20);

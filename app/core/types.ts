@@ -30,8 +30,13 @@ export type UserInfo = Omit<User, keyof DatabaseEntity> & {
   };
 };
 
-export type UserLoginInfo = {
+export type UserSignUpInfo = {
   name: string;
+  email: string;
+  password: string;
+};
+
+export type UserLoginInfo = {
   email: string;
   password: string;
 };

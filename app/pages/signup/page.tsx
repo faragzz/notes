@@ -6,16 +6,16 @@ import groovyWalkAnimation from "../../../public/loginAnimation.json";
 import { signUpUser } from "@/app/util/handle";
 import { noteDefualt, UserInfo } from "@/app/core/types";
 import { useRouter } from "next/navigation";
-
-const handleSumbit = (name: string, email: string, password: string) => {
-  signUpUser({ name, email, password });
-};
+import AutohideSnackbar from "@/app/components/AutohideSnackbar";
+import AutohideSnackbarError from "@/app/components/AutohideSnackbarError";
 
 export default function SignUp() {
   const router = useRouter();
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
+  const [openError, setOpenError] = useState(false);
   return (
     <div className="flex justify-center items-center w-full h-screen relative">
       <div className="-z-10 w-full h-full absolute">
@@ -63,9 +63,21 @@ export default function SignUp() {
                 />
               </div>
               <button
-                onClick={() => {
-                  handleSumbit(name, email, password);
-                  router.push("/");
+                onClick={async () => {
+                  const data  = await signUpUser({ name, email, password });
+                  if(data){
+                    setOpen(true);
+                    setTimeout(() => {
+                      setOpen(false);
+                      router.push("/");
+                    }, 1000);
+                  }
+                  else{
+                    setOpenError(true);
+                    setTimeout(() => {
+                      setOpenError(false);
+                    }, 1000);
+                  }
                 }}
                 className="bg-blue-800 w-full mt-4 p-4 rounded-2xl text-white font-bold"
               >
@@ -83,6 +95,8 @@ export default function SignUp() {
           </div>
         </div>
       </div>
+      <AutohideSnackbar message="User Created Successfully" state={open} />;
+      <AutohideSnackbarError message="User Was Created" state={openError} />
     </div>
   );
 }
