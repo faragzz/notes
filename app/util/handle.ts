@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import { UserLoginInfo, UserSignUpInfo } from "../core/types";
+import { addNoteInfo, getNoteInfo, UserLoginInfo, UserSignUpInfo } from "../core/types";
 
 export const signUpUser = async (userInfo: UserSignUpInfo) => {
   try {
@@ -31,7 +31,6 @@ export const loginUser = async (
     });
 
     if (!response.ok) {
-      // Handle non-successful response (optional)
       throw new Error(`Failed to log in: ${response.statusText}`);
     }
 
@@ -42,3 +41,46 @@ export const loginUser = async (
     return undefined; // Return undefined or handle the error as per your requirement
   }
 };
+
+export const addUserNote = async (userInfo: addNoteInfo) => {
+  try {
+    const response = await fetch("/api/createNote", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userInfo),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to add Note : ${response.statusText}`);
+    }
+
+    const responseData: User = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error when adding Note :", error);
+    return undefined;
+  }
+};
+export const getUserNotes = async (userInfo: getNoteInfo) => {
+    try {
+      const response = await fetch("/api/getNotes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userInfo),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to get All User notes : ${response.statusText}`);
+      }
+  
+      const responseData: User = await response.json();
+      return responseData;
+    } catch (error) {
+      console.error("Error when getting All User Notes :", error);
+      return undefined;
+    }
+  };

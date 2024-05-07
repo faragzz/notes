@@ -1,5 +1,11 @@
-import { UserInfo, UserLoginInfo, UserSignUpInfo } from "@/app/core/types";
+import {
+  UserInfo,
+  UserLoginInfo,
+  UserSignUpInfo,
+  Note,
+} from "@/app/core/types";
 import prisma from "./prisma";
+// import { Note } from "@prisma/client";
 
 // SignIn and Login
 export const createUser = async (userSignUpInfo: UserSignUpInfo) => {
@@ -33,3 +39,40 @@ export const checkUser = async (userLoginInfo: UserLoginInfo) => {
 };
 
 // Notes
+
+export const getAllNotesFromAUser = async (email: string) => {
+  try {
+    const user = await prisma.user.findUnique({
+      include: { notes: true },
+      where: {
+        email: email,
+      },
+    });
+    console.log("user Notes = ", user?.notes);
+    return user?.notes;
+  } catch (error) {
+    console.error("Error retrieving user Notes :", error);
+  }
+};
+
+export const addNote = async (email: string, note: Note) => {
+  try {
+    const updatedUser = await prisma.user.update({
+      where: {
+        email: email,
+      },
+      data: {
+        notes: {
+          create: note, // Create a new note
+        },
+      },
+      include: {
+        notes: true, // Include notes to ensure they are loaded
+      },
+    });
+    console.log("user Notes= ", updatedUser?.notes);
+    return updatedUser?.notes;
+  } catch (error) {
+    console.error("Error adding user Note :", error);
+  }
+};

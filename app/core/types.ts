@@ -41,6 +41,15 @@ export type UserLoginInfo = {
   password: string;
 };
 
+export type addNoteInfo = {
+  email: string;
+  note: Note;
+};
+
+export type getNoteInfo = {
+  email: string;
+};
+
 export const noteDefualt: Note = {
   title: "Hello",
   content: "Welcome to the Library we Welcome you",
