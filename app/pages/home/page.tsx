@@ -10,22 +10,11 @@ import { useCookies } from "next-client-cookies";
 import { getUserNotes } from "@/app/util/handle";
 import { Note } from "@prisma/client";
 
-// const getNotes = async () => {
-//   const cookies = useCookies();
-//   const userEmail: string = cookies.get("email") || "";
-//   try {
-//     const notes: Note[] = await getUserNotes(userEmail);
-//     return notes;
-//   } catch (error) {
-//     console.log("error fetching User Notes");
-//     return [];
-//   }
-// };
 const Home = () => {
   const [notes, setNotes] = useState<Note[]>([]); // Initialize notes as undefined
   const cookies = useCookies();
   const userEmail: string = cookies.get("email") || "";
-  console.log("email :" + userEmail + "|");
+  console.log("email :" + userEmail);
   useEffect(() => {
     const fetchUserNotes = async () => {
       try {
@@ -50,13 +39,13 @@ const Home = () => {
             <Link href={"/pages/note/add_note"}>
               <div className="flex items-center mt-10 hover:bg-gray-200 rounded-xl p-4">
                 <BiSolidCalendarEdit className="text-black" size={20} />
-                <p className="text-black font-semibold text-sm ml-2">Add new</p>
+                <p className="text-black font-semibold text-sm ml-2">Add new Book</p>
               </div>
             </Link>
             <div className="flex items-center hover:bg-gray-200 rounded-xl mt-8 p-4">
               <BiSolidNotepad className="text-black" size={20} />
               <p className="text-black font-semibold text-sm ml-2">
-                Show All Notes
+                Show All Books
               </p>
             </div>
           </div>

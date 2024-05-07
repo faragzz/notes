@@ -34,7 +34,7 @@ const NotePage = ({
   const type = params.type === "edit" ? true : false;
   const email: string = cookies.get("email") || "";
   const noteId: string = searchParams.id;
-  
+
   useEffect(() => {
     console.log("type = ", type);
     console.log("email :" + email + "|");

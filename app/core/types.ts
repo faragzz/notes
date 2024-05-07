@@ -11,6 +11,7 @@ export const Color = [
   "bg-red-100",
   "bg-yellow-200",
   "bg-blue-100",
+  "bg-purple-100",
 ];
 
 export type NoteType = {

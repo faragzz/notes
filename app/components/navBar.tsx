@@ -8,7 +8,7 @@ const NavBar: React.FC = () => {
       <div className="flex flex-row justify-between items-center h-20 px-8">
         {/* left side */}
         <div className="flex items-center">
-          <p className="text-3xl font-bold text-black">MY NOTES</p>
+          <p className="text-3xl font-bold text-black">MY Library</p>
         </div>
         {/* mid */}
         {/* <div className="flex gap-8 text-black  text-xl">
