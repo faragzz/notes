@@ -2,14 +2,44 @@
 import BasicDateCalendar from "@/app/components/Calendar";
 import { Card } from "@/app/components/card";
 import NavBar from "@/app/components/navBar";
-import { Note } from "@/app/core/types";
 import { generateRandomNotes } from "@/app/mocks/generateRandomNotes";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BiSolidCalendarEdit, BiSolidNotepad } from "react-icons/bi";
 import Link from "next/link";
+import { useCookies } from "next-client-cookies";
+import { getUserNotes } from "@/app/util/handle";
+import { Note } from "@prisma/client";
 
+// const getNotes = async () => {
+//   const cookies = useCookies();
+//   const userEmail: string = cookies.get("email") || "";
+//   try {
+//     const notes: Note[] = await getUserNotes(userEmail);
+//     return notes;
+//   } catch (error) {
+//     console.log("error fetching User Notes");
+//     return [];
+//   }
+// };
 const Home = () => {
-  const notes: Note[] = generateRandomNotes(20);
+  const [notes, setNotes] = useState<Note[]>([]); // Initialize notes as undefined
+  const cookies = useCookies();
+  const userEmail: string = cookies.get("email") || "";
+  console.log("email :" + userEmail + "|");
+  useEffect(() => {
+  const fetchUserNotes = async () => {
+    try {
+      const fetchedNotes = await getUserNotes(userEmail);
+      setNotes(fetchedNotes); // Set the fetched notes
+    } catch (error) {
+      console.error("Failed to fetch notes:", error);
+      setNotes([]); // Set notes to an empty array or handle the error appropriately
+    }
+  };
+
+  fetchUserNotes(); // Call the function to fetch user notes
+  }, []); // Run this effect whenever userEmail changes
+
   return (
     <>
       <NavBar />
@@ -41,7 +71,7 @@ const Home = () => {
                 color={note.color}
                 title={note.title}
                 content={note.content}
-                date={note.date}
+                date={note.date.toString()}
                 key={index}
               />
             );

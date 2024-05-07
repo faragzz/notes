@@ -6,13 +6,13 @@ type Props = {
   color: string;
   title: string;
   content: string;
-  date: Date;
+  date: string;
 };
 
 export const Card = ({ color, title, content, date }: Props) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  const formattedDate = date.toLocaleDateString("en-US", {
+  const formattedDate = new Date(date).toLocaleDateString("en-US", {
     month: "numeric",
     day: "numeric",
     year: "numeric",

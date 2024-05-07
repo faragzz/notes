@@ -30,6 +30,8 @@ export type UserInfo = Omit<User, keyof DatabaseEntity> & {
   };
 };
 
+// export type INote = Omit<Note,keyof DatabaseEntity>
+
 export type UserSignUpInfo = {
   name: string;
   email: string;
@@ -55,4 +57,9 @@ export const noteDefualt: Note = {
   content: "Welcome to the Library we Welcome you",
   color: "",
   date: new Date(),
+};
+
+export type editNoteType = {
+  note: Note;
+  noteId: string;
 };

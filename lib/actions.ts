@@ -1,11 +1,13 @@
 import {
+  addNoteInfo,
+  editNoteType,
   UserInfo,
   UserLoginInfo,
   UserSignUpInfo,
-  Note,
 } from "@/app/core/types";
 import prisma from "./prisma";
-// import { Note } from "@prisma/client";
+import { userAgent } from "next/server";
+import { Note } from "@prisma/client";
 
 // SignIn and Login
 export const createUser = async (userSignUpInfo: UserSignUpInfo) => {
@@ -48,31 +50,62 @@ export const getAllNotesFromAUser = async (email: string) => {
         email: email,
       },
     });
+
+    console.log(user);
     console.log("user Notes = ", user?.notes);
     return user?.notes;
   } catch (error) {
     console.error("Error retrieving user Notes :", error);
   }
 };
-
-export const addNote = async (email: string, note: Note) => {
+export const addNote = async (userInfo: addNoteInfo) => {
   try {
-    const updatedUser = await prisma.user.update({
-      where: {
-        email: email,
-      },
-      data: {
-        notes: {
-          create: note, // Create a new note
-        },
-      },
+    // Find the user including their notes
+    const user = await prisma.user.findUnique({
       include: {
-        notes: true, // Include notes to ensure they are loaded
+        notes: true,
+      },
+      where: {
+        email: userInfo.email,
       },
     });
-    console.log("user Notes= ", updatedUser?.notes);
-    return updatedUser?.notes;
+
+    if (user) {
+      // Create the new note
+      const newNote = await prisma.note.create({
+        data: {
+          title: userInfo.note.title,
+          content: userInfo.note.content,
+          color: userInfo.note.color,
+          date: new Date(),
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      });
+
+      console.log("New note created:", newNote);
+    } else {
+      console.error("User not found");
+    }
   } catch (error) {
-    console.error("Error adding user Note :", error);
+    console.error("Error adding user note:", error);
+  }
+};
+
+export const editUserNote = async (data: editNoteType) => {
+  try {
+    const user = await prisma.note.update({
+      where: {
+        id: data.noteId,
+      },
+      data: data.note,
+    });
+
+    console.log("note edited");
+  } catch (error) {
+    console.error("Error retrieving user Notes :", error);
   }
 };

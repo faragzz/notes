@@ -3,7 +3,7 @@ import { getAllNotesFromAUser } from "@/lib/actions";
 
 // Get Notes
 export async function POST(req: Request) {
-  const userInfo:getNoteInfo  = await req.json();
-  const user = await getAllNotesFromAUser(userInfo.email);
+  const userInfo:string  = await req.json();
+  const user = await getAllNotesFromAUser(userInfo);
   return new Response(JSON.stringify(user));
 }

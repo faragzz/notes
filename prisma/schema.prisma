@@ -29,5 +29,6 @@ model Note {
   content String
   color   String
   date    DateTime
-  user User @relation(fields: [id], references: [id])
+  userId  String
+  user User @relation(fields: [userId], references: [id])
 }

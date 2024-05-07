@@ -1,5 +1,13 @@
-import { User } from "@prisma/client";
-import { addNoteInfo, getNoteInfo, UserLoginInfo, UserSignUpInfo } from "../core/types";
+import { Note, User } from "@prisma/client";
+import {
+  addNoteInfo,
+  editNoteType,
+  getNoteInfo,
+  UserInfo,
+  // INote,
+  UserLoginInfo,
+  UserSignUpInfo,
+} from "../core/types";
 
 export const signUpUser = async (userInfo: UserSignUpInfo) => {
   try {
@@ -42,45 +50,66 @@ export const loginUser = async (
   }
 };
 
-export const addUserNote = async (userInfo: addNoteInfo) => {
+export const addUserNote = async (data: addNoteInfo) => {
   try {
     const response = await fetch("/api/createNote", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userInfo),
+      body: JSON.stringify(data),
     });
 
     if (!response.ok) {
       throw new Error(`Failed to add Note : ${response.statusText}`);
     }
 
-    const responseData: User = await response.json();
-    return responseData;
+    // const responseData = await response.json();
+    console.log("note created");
   } catch (error) {
     console.error("Error when adding Note :", error);
     return undefined;
   }
 };
-export const getUserNotes = async (userInfo: getNoteInfo) => {
-    try {
-      const response = await fetch("/api/getNotes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userInfo),
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Failed to get All User notes : ${response.statusText}`);
-      }
-  
-      const responseData: User = await response.json();
-      return responseData;
-    } catch (error) {
-      console.error("Error when getting All User Notes :", error);
-      return undefined;
+export const getUserNotes = async (email: string) => {
+  try {
+    const response = await fetch("/api/getNotes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to get All User notes : ${response.statusText}`);
     }
-  };
+
+    const responseData: Note[] = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error when getting All User Notes :", error);
+    return [];
+  }
+};
+export const editNote = async (data: editNoteType) => {
+  try {
+    const response = await fetch("/api/getNotes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to get All User notes : ${response.statusText}`);
+    }
+
+    const responseData: Note[] = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error when getting All User Notes :", error);
+    return [];
+  }
+};
