@@ -31,6 +31,7 @@ export const checkUser = async (userLoginInfo: UserLoginInfo) => {
     const user = await prisma.user.findUnique({
       where: {
         email: userLoginInfo.email,
+        password: userLoginInfo.password,
       },
     });
     console.log("user = ", user);
@@ -97,11 +98,15 @@ export const addNote = async (userInfo: addNoteInfo) => {
 
 export const editUserNote = async (data: editNoteType) => {
   try {
-    const user = await prisma.note.update({
+    await prisma.note.update({
       where: {
         id: data.noteId,
       },
-      data: data.note,
+      data: {
+        color: data.note.color,
+        content: data.note.content,
+        title: data.note.title,
+      },
     });
 
     console.log("note edited");

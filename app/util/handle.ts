@@ -94,7 +94,7 @@ export const getUserNotes = async (email: string) => {
 };
 export const editNote = async (data: editNoteType) => {
   try {
-    const response = await fetch("/api/getNotes", {
+    const response = await fetch("/api/editNote", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

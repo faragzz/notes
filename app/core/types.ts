@@ -18,6 +18,7 @@ export type NoteType = {
   content: string;
   color: string;
   date: string;
+  id: string;
 };
 
 interface DatabaseEntity {

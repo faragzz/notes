@@ -7,9 +7,10 @@ type Props = {
   title: string;
   content: string;
   date: string;
+  id: string;
 };
 
-export const Card = ({ color, title, content, date }: Props) => {
+export const Card = ({ color, title, content, date, id }: Props) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const formattedDate = new Date(date).toLocaleDateString("en-US", {
@@ -19,7 +20,18 @@ export const Card = ({ color, title, content, date }: Props) => {
   });
 
   return (
-    <Link href={{ pathname: "/pages/note/edit", query: {color:color,title:title,content:content,formattedDate:formattedDate} }}>
+    <Link
+      href={{
+        pathname: "/pages/note/edit",
+        query: {
+          color: color,
+          title: title,
+          content: content,
+          formattedDate: formattedDate,
+          id: id,
+        },
+      }}
+    >
       <div
         className={`relative ${color} w-60 h-60 rounded-xl text-black p-4`}
         onMouseEnter={() => setIsHovered(true)}

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Color, NoteType } from "@/app/core/types";
 import ColorPalettes from "@/app/components/colorPalettes";
 import { useCookies } from "next-client-cookies";
-import { addUserNote } from "@/app/util/handle";
+import { addUserNote, editNote } from "@/app/util/handle";
 import { Note } from "@prisma/client";
 
 const NotePage = ({
@@ -33,10 +33,12 @@ const NotePage = ({
   // add note->false | edit->true
   const type = params.type === "edit" ? true : false;
   const email: string = cookies.get("email") || "";
-
+  const noteId: string = searchParams.id;
+  
   useEffect(() => {
+    console.log("type = ", type);
     console.log("email :" + email + "|");
-  },[email]);
+  }, [email]);
 
   return (
     <div
@@ -77,16 +79,29 @@ const NotePage = ({
             className="bg-blue-600 w-full mt-4 p-4 rounded-2xl text-white font-bold text-xl"
             onClick={async () => {
               if (type) {
-              } else {
-                const note: Omit<Note, 'id'> = {
+                const note: Omit<Note, "id"> = {
                   title: title,
                   content: content,
                   color: bgColor,
                   date: new Date(),
-                  userId: ""
+                  userId: "",
                 };
                 setOpen(true);
-                await addUserNote({email,note});
+                await editNote({ note, noteId });
+                setTimeout(() => {
+                  setOpen(false);
+                  router.push("/pages/home");
+                }, 1000);
+              } else {
+                const note: Omit<Note, "id"> = {
+                  title: title,
+                  content: content,
+                  color: bgColor,
+                  date: new Date(),
+                  userId: "",
+                };
+                setOpen(true);
+                await addUserNote({ email, note });
                 setTimeout(() => {
                   setOpen(false);
                   router.push("/pages/home");

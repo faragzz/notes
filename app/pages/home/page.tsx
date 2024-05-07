@@ -27,17 +27,17 @@ const Home = () => {
   const userEmail: string = cookies.get("email") || "";
   console.log("email :" + userEmail + "|");
   useEffect(() => {
-  const fetchUserNotes = async () => {
-    try {
-      const fetchedNotes = await getUserNotes(userEmail);
-      setNotes(fetchedNotes); // Set the fetched notes
-    } catch (error) {
-      console.error("Failed to fetch notes:", error);
-      setNotes([]); // Set notes to an empty array or handle the error appropriately
-    }
-  };
+    const fetchUserNotes = async () => {
+      try {
+        const fetchedNotes = await getUserNotes(userEmail);
+        setNotes(fetchedNotes); // Set the fetched notes
+      } catch (error) {
+        console.error("Failed to fetch notes:", error);
+        setNotes([]); // Set notes to an empty array or handle the error appropriately
+      }
+    };
 
-  fetchUserNotes(); // Call the function to fetch user notes
+    fetchUserNotes(); // Call the function to fetch user notes
   }, []); // Run this effect whenever userEmail changes
 
   return (
@@ -72,6 +72,7 @@ const Home = () => {
                 title={note.title}
                 content={note.content}
                 date={note.date.toString()}
+                id={note.id}
                 key={index}
               />
             );
