@@ -40,7 +40,7 @@ export const Card = ({ color, title, content, date, id }: Props) => {
         {isHovered ? (
           <div className="flex justify-center items-center w-full h-full gap-2">
             <MdEdit />
-            <p className="">Edit note</p>
+            <p className="">Edit Book</p>
           </div>
         ) : (
           <div className="flex flex-col w-full h-full">

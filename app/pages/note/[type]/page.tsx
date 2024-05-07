@@ -109,7 +109,7 @@ const NotePage = ({
               }
             }}
           >
-            Save Note
+            Save Book
           </button>
         </div>
       </div>
