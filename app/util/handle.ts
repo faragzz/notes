@@ -2,9 +2,7 @@ import { Note, User } from "@prisma/client";
 import {
   addNoteInfo,
   editNoteType,
-  getNoteInfo,
-  UserInfo,
-  // INote,
+  noteDefualt,
   UserLoginInfo,
   UserSignUpInfo,
 } from "../core/types";
@@ -83,13 +81,13 @@ export const getUserNotes = async (email: string) => {
 
     if (!response.ok) {
       throw new Error("Failed to fetch user notes");
-    }
+    } 
 
-    const responseData = await response.json();
+    const responseData = (await response.json()) as Note[];
     return responseData;
   } catch (error) {
     console.error("Error when getting user notes:", error);
-    return []; // Return an empty array if there's an error
+    return [noteDefualt]; // Return an empty array if there's an error
   }
 };
 export const editNote = async (data: editNoteType) => {

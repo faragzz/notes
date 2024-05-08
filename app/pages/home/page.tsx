@@ -21,10 +21,8 @@ const Home = () => {
     const fetchUserNotes = async () => {
       setLoading(true);
       try {
-        const fetchedNotes = await getUserNotes(userEmail);
+        const fetchedNotes = (await getUserNotes(userEmail) as Note[]);
         console.log('email sent = ',userEmail);
-        setTimeout(() => {
-        }, 1000);
         setNotes(fetchedNotes);
         setError("");
       } catch (error) {
@@ -37,6 +35,7 @@ const Home = () => {
 
     fetchUserNotes();
   }, []);
+
 
   return (
     <>

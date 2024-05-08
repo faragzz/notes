@@ -55,7 +55,7 @@ export type getNoteInfo = {
 };
 
 export const noteDefualt: Note = {
-  title: "Hello",
+  title: "error fetching",
   content: "Welcome to the Library we Welcome you",
   color: "",
   date: new Date(),
