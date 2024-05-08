@@ -22,7 +22,10 @@ const Home = () => {
       setLoading(true);
       try {
         const fetchedNotes = await getUserNotes(userEmail);
-        setNotes(fetchedNotes || []); // If fetchedNotes is falsy, set an empty array
+        console.log('email sent = ',userEmail);
+        setTimeout(() => {
+        }, 1000);
+        setNotes(fetchedNotes);
         setError("");
       } catch (error) {
         console.error("Failed to fetch notes:", error);
@@ -33,7 +36,7 @@ const Home = () => {
     };
 
     fetchUserNotes();
-  }, [userEmail]);
+  }, []);
 
   return (
     <>
@@ -56,9 +59,9 @@ const Home = () => {
               </p>
             </div>
           </div>
-          <div className="text-black text-xs">
+          {/* <div className="text-black text-xs">
             <BasicDateCalendar />
-          </div>
+          </div> */}
         </div>
         <div className="flex flex-wrap gap-4 p-4 w-full h-full rounded-tl-3xl bg-gray-200 overflow-auto">
           {loading ? (

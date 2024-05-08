@@ -8,4 +8,5 @@ export async function POST(req: Request) {
   if (user) {
     return new Response(JSON.stringify(user));
   }
+  return new Response(JSON.stringify([]));
 }

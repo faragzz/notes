@@ -6,8 +6,6 @@ import {
   UserSignUpInfo,
 } from "@/app/core/types";
 import prisma from "./prisma";
-import { userAgent } from "next/server";
-import { Note } from "@prisma/client";
 
 // SignIn and Login
 export const createUser = async (userSignUpInfo: UserSignUpInfo) => {
@@ -54,12 +52,10 @@ export const getAllNotesFromAUser = async (email: string) => {
 
     console.log("user: ", user);
     console.log("user Notes: ", user?.notes);
-    
-    // Check if user is null before accessing user?.notes
-    return user ? user.notes : []; // Return an empty array if user is null
+  
+    return user ? user.notes : [];
   } catch (error) {
     console.error("Error retrieving user Notes:", error);
-    return []; // Return an empty array if there's an error
   }
 };
 
@@ -72,7 +68,7 @@ export const addNote = async (userInfo: addNoteInfo) => {
         notes: true,
       },
       where: {
-        email: userInfo.email,
+        email: userInfo.email.toString(),
       },
     });
 
