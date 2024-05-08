@@ -25,6 +25,7 @@ const Home = () => {
         console.log('email sent = ',userEmail);
         setNotes(fetchedNotes);
         setError("");
+        console.log(fetchedNotes);
       } catch (error) {
         console.error("Failed to fetch notes:", error);
         setError("Failed to fetch notes. Please try again.");
