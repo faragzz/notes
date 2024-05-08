@@ -15,12 +15,16 @@ const Home = () => {
   const cookies = useCookies();
   const userEmail: string = cookies.get("email") || "";
   console.log("email :" + userEmail);
-  
+
   useEffect(() => {
     const fetchUserNotes = async () => {
       try {
         const fetchedNotes = await getUserNotes(userEmail);
-        setNotes(fetchedNotes); // Set the fetched notes
+        if (fetchedNotes) {
+          setNotes(fetchedNotes); // Set the fetched notes
+        } else {
+          setNotes([]);
+        }
       } catch (error) {
         console.error("Failed to fetch notes:", error);
         setNotes([]); // Set notes to an empty array or handle the error appropriately
@@ -40,7 +44,9 @@ const Home = () => {
             <Link href={"/pages/note/add_note"}>
               <div className="flex items-center mt-10 hover:bg-gray-200 rounded-xl p-4">
                 <BiSolidCalendarEdit className="text-black" size={20} />
-                <p className="text-black font-semibold text-sm ml-2">Add new Book</p>
+                <p className="text-black font-semibold text-sm ml-2">
+                  Add new Book
+                </p>
               </div>
             </Link>
             <div className="flex items-center hover:bg-gray-200 rounded-xl mt-8 p-4">
