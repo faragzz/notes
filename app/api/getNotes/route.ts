@@ -5,9 +5,5 @@ import { getAllNotesFromAUser } from "@/lib/actions";
 export async function POST(req: Request) {
   const userInfo: string = await req.json();
   const user = await getAllNotesFromAUser(userInfo);
-  if (user) {
-    return new Response(JSON.stringify(user));
-  } else {
-    return new Response(JSON.stringify([]));
-  }
+  return new Response(JSON.stringify(user));
 }
