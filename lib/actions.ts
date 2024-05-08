@@ -52,6 +52,7 @@ export const getAllNotesFromAUser = async (email: string) => {
     });
 
     console.log("user Note: ", user)
+    // here 
     return user ? user.notes : [];
   } catch (error) {
     console.error("Error retrieving user Notes:", error);

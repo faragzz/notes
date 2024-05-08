@@ -7,6 +7,7 @@ export async function POST(req: Request) {
   const user = await getAllNotesFromAUser(userInfo);
   if (user) {
     return new Response(JSON.stringify(user));
+  } else {
+    return new Response(JSON.stringify([]));
   }
-  return new Response(JSON.stringify([]));
 }
