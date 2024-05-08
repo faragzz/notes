@@ -32,7 +32,7 @@ const Home = () => {
     };
 
     fetchUserNotes(); // Call the function to fetch user notes
-  }, []); // Run this effect whenever userEmail changes
+  }, [notes]); // Run this effect whenever userEmail changes
 
   return (
     <>
