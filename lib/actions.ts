@@ -52,11 +52,14 @@ export const getAllNotesFromAUser = async (email: string) => {
       },
     });
 
-    console.log(user);
-    console.log("user Notes = ", user?.notes);
-    return user?.notes;
+    console.log("user: ", user);
+    console.log("user Notes: ", user?.notes);
+    
+    // Check if user is null before accessing user?.notes
+    return user ? user.notes : []; // Return an empty array if user is null
   } catch (error) {
-    console.error("Error retrieving user Notes :", error);
+    console.error("Error retrieving user Notes:", error);
+    return []; // Return an empty array if there's an error
   }
 };
 

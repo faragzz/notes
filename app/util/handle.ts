@@ -81,11 +81,15 @@ export const getUserNotes = async (email: string) => {
       body: JSON.stringify({ email }),
     });
 
+    if (!response.ok) {
+      throw new Error("Failed to fetch user notes");
+    }
+
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    console.error("Error when getting All User Notes :", error);
-    // return [];
+    console.error("Error when getting user notes:", error);
+    return []; // Return an empty array if there's an error
   }
 };
 export const editNote = async (data: editNoteType) => {
