@@ -41,24 +41,15 @@ export const checkUser = async (userLoginInfo: UserLoginInfo) => {
 
 // Notes
 
-export const getAllNotesFromAUser = async (email: string) => {
-  try {
-    console.log('email server= ',email);
-    const user = await prisma.user.findUnique({
-      include: { notes: true },
-      where: {
-        email: email,
-      },
-    });
-
-    console.log("user Note: ", user)
-    // here 
-    return user ? user.notes : [];
-  } catch (error) {
-    console.error("Error retrieving user Notes:", error);
-  }
-};
-
+export const getAllNotesFromAUser = async (email: string) =>
+  await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+    select: {
+      notes: true,
+    },
+  });
 
 export const addNote = async (userInfo: addNoteInfo) => {
   try {

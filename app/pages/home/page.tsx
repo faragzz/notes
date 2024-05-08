@@ -12,31 +12,39 @@ import { Note } from "@prisma/client";
 
 const Home = () => {
   const [notes, setNotes] = useState<Note[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const cookies = useCookies();
   const userEmail: string = cookies.get("email") || "";
 
   useEffect(() => {
-    const fetchUserNotes = async () => {
-      setLoading(true);
-      try {
-        const fetchedNotes = (await getUserNotes(userEmail) as Note[]);
-        console.log('email sent = ',userEmail);
-        setNotes(fetchedNotes);
-        setError("");
-        console.log(fetchedNotes);
-      } catch (error) {
-        console.error("Failed to fetch notes:", error);
-        setError("Failed to fetch notes. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
+    // const fetchUserNotes = async () => {
+    //   setLoading(true);
+    //   try {
+    //     const fetchedNotes = (await getUserNotes(userEmail)) as Note[];
+    //     console.log("email sent = ", userEmail);
+    //     setNotes(fetchedNotes);
+    //     console.log('notes =',notes);
+    //     setError("");
+    //     console.log(fetchedNotes);
+    //   } catch (error) {
+    //     console.error("Failed to fetch notes:", error);
+    //     setError("Failed to fetch notes. Please try again.");
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
 
-    fetchUserNotes();
+    // fetchUserNotes();
+
+    getUserNotes(userEmail).then((res)=>{
+      setNotes(res.notes)
+    });
   }, []);
 
+
+  // const isNotEmpty = notes.length < 1;
+  // if (isNotEmpty) return;
 
   return (
     <>

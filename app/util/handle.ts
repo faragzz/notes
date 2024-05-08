@@ -70,25 +70,26 @@ export const addUserNote = async (data: addNoteInfo) => {
   }
 };
 export const getUserNotes = async (email: string) => {
-  try {
-    const response = await fetch("/api/getNotes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    });
+  // try {
+  const response = await fetch("/api/getNotes", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email }),
+  });
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch user notes");
-    } 
+  // if (!response.ok) {
+  //   throw new Error("Failed to fetch user notes");
+  // }
 
-    const responseData = (await response.json()) as Note[];
-    return responseData;
-  } catch (error) {
-    console.error("Error when getting user notes:", error);
-    return [noteDefualt]; // Return an empty array if there's an error
-  }
+  const responseData = await response.json();
+  console.log('response server =',responseData);
+  return responseData;
+  // } catch (error) {
+  //   console.error("Error when getting user notes:", error);
+  //   return [noteDefualt];
+  // }
 };
 export const editNote = async (data: editNoteType) => {
   try {
