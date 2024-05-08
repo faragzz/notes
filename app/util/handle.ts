@@ -85,7 +85,7 @@ export const getUserNotes = async (email: string) => {
     return responseData;
   } catch (error) {
     console.error("Error when getting All User Notes :", error);
-    return [];
+    // return [];
   }
 };
 export const editNote = async (data: editNoteType) => {
