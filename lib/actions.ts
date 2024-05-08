@@ -59,6 +59,8 @@ export const getAllNotesFromAUser = async (email: string) => {
     console.error("Error retrieving user Notes :", error);
   }
 };
+
+
 export const addNote = async (userInfo: addNoteInfo) => {
   try {
     // Find the user including their notes

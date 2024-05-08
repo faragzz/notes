@@ -81,11 +81,7 @@ export const getUserNotes = async (email: string) => {
       body: JSON.stringify({ email }),
     });
 
-    if (!response.ok) {
-      throw new Error(`Failed to get All User notes : ${response.statusText}`);
-    }
-
-    const responseData: Note[] = await response.json();
+    const responseData = await response.json();
     return responseData;
   } catch (error) {
     console.error("Error when getting All User Notes :", error);
