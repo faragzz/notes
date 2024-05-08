@@ -38,7 +38,7 @@ const NotePage = ({
   useEffect(() => {
     console.log("type = ", type);
     console.log("email :" + email + "|");
-  }, [email]);
+  }, [email,type]);
 
   return (
     <div

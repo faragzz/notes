@@ -15,6 +15,7 @@ const Home = () => {
   const cookies = useCookies();
   const userEmail: string = cookies.get("email") || "";
   console.log("email :" + userEmail);
+  
   useEffect(() => {
     const fetchUserNotes = async () => {
       try {
