@@ -11,34 +11,34 @@ import { getUserNotes } from "@/app/util/handle";
 import { Note } from "@prisma/client";
 
 const Home = () => {
-  const [notes, setNotes] = useState<Note[]>([]); // Initialize notes as undefined
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
   const cookies = useCookies();
   const userEmail: string = cookies.get("email") || "";
-  console.log("email :" + userEmail);
 
   useEffect(() => {
     const fetchUserNotes = async () => {
+      setLoading(true);
       try {
         const fetchedNotes = await getUserNotes(userEmail);
-        if (fetchedNotes) {
-          setNotes(fetchedNotes); // Set the fetched notes
-        } else {
-          setNotes([]);
-        }
+        setNotes(fetchedNotes || []); // If fetchedNotes is falsy, set an empty array
+        setError("");
       } catch (error) {
         console.error("Failed to fetch notes:", error);
-        setNotes([]); // Set notes to an empty array or handle the error appropriately
+        setError("Failed to fetch notes. Please try again.");
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchUserNotes(); // Call the function to fetch user notes
-  }, [notes]); // Run this effect whenever userEmail changes
+    fetchUserNotes();
+  }, [userEmail]);
 
   return (
     <>
       <NavBar />
       <div className="flex w-full h-screen bg-gray-100 relative">
-        {/* left */}
         <div className="flex flex-col h-screen w-72 gap-8 mr-8">
           <div className="ml-8">
             <Link href={"/pages/note/add_note"}>
@@ -61,8 +61,12 @@ const Home = () => {
           </div>
         </div>
         <div className="flex flex-wrap gap-4 p-4 w-full h-full rounded-tl-3xl bg-gray-200 overflow-auto">
-          {notes.map((note, index) => {
-            return (
+          {loading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p>{error}</p>
+          ) : (
+            notes.map((note, index) => (
               <Card
                 color={note.color}
                 title={note.title}
@@ -71,11 +75,12 @@ const Home = () => {
                 id={note.id}
                 key={index}
               />
-            );
-          })}
+            ))
+          )}
         </div>
       </div>
     </>
   );
 };
+
 export default Home;
