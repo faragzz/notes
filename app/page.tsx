@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Lottie from "lottie-react";
 import { useRouter } from "next/navigation";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 
 import groovyWalkAnimation from "../public/loginAnimation.json";
 import AutohideSnackbar from "./components/AutohideSnackbar";
@@ -13,185 +14,95 @@ import { loginUser } from "./util/handle";
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [open, setOpen] = useState(false);
   const [openError, setOpenError] = useState(false);
-
   const router = useRouter();
 
   const handleLogin = async () => {
     try {
       const data = await loginUser({ email, password });
-
       if (data) {
         setOpen(true);
-
-        setTimeout(() => {
-          setOpen(false);
-          router.push("/pages/home");
-        }, 1000);
+        setTimeout(() => { setOpen(false); router.push("/pages/home"); }, 1000);
       } else {
         setOpenError(true);
-
-        setTimeout(() => {
-          setOpenError(false);
-        }, 1000);
+        setTimeout(() => setOpenError(false), 1000);
       }
-    } catch (error) {
-      console.error("Error logging in:", error);
-
+    } catch {
       setOpenError(true);
-
-      setTimeout(() => {
-        setOpenError(false);
-      }, 1000);
+      setTimeout(() => setOpenError(false), 1000);
     }
   };
 
   return (
-    <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden px-4 py-6">
-      {/* Background */}
-      <div className="absolute inset-0 -z-10">
-        <div className="h-1/2 bg-blue-800" />
-        <div className="h-1/2 bg-gray-200" />
-      </div>
+    <div className="min-h-screen w-full bg-[#f7f7f5] flex items-center justify-center px-4 py-10">
+      <div className="w-full max-w-5xl overflow-hidden rounded-3xl shadow-xl flex flex-col md:flex-row">
 
-      {/* Main Card */}
-      <div
-        className="
-          relative z-10
-          h-[650px]
-          w-full
-          max-w-[1100px]
-          overflow-hidden
-          rounded-3xl
-          shadow-2xl
-          sm:h-[680px]
-          md:h-[650px]
-        "
-      >
-        <div className="flex h-full w-full">
-          {/* Login */}
-          <div
-            className="
-              relative
-              flex h-full w-full
-              items-center justify-center
-              bg-gray-50
-              px-6
-              sm:px-12
-              md:w-1/2
-              md:px-14
-            "
-          >
-            <div className="w-full max-w-[400px]">
-              <p className="mb-10 text-center text-4xl font-bold text-black">
-                Login
-              </p>
+        {/* Form side */}
+        <div className="flex flex-col justify-center bg-white px-8 py-12 w-full md:w-1/2 sm:px-12">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back</h1>
+          <p className="text-sm text-gray-500 mb-8">Sign in to your account</p>
 
-              {/* Email */}
-              <div className="mb-5">
-                <label className="mb-2 block text-gray-500 font-readex-pro">
-                  Email
-                </label>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/20"
+            />
+          </div>
 
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="input input-bordered w-full border-2 bg-gray-100"
-                  required
-                />
-              </div>
-
-              {/* Password */}
-              <div className="mb-6">
-                <label className="mb-2 block text-gray-500 font-readex-pro">
-                  Password
-                </label>
-
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="input input-bordered w-full border-2 bg-gray-100"
-                  required
-                />
-              </div>
-
-              {/* Login */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 pr-11 text-sm text-black placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/20"
+              />
               <button
-                onClick={handleLogin}
-                className="
-                  w-full
-                  rounded-2xl
-                  bg-blue-800
-                  p-4
-                  font-bold
-                  text-white
-                  transition
-                  hover:bg-blue-900
-                  active:scale-[0.98]
-                "
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 transition-colors"
               >
-                Login
+                {showPassword ? <MdVisibilityOff size={20} /> : <MdVisibility size={20} />}
               </button>
             </div>
-
-            {/* Signup */}
-            <div
-              className="
-                absolute
-                bottom-5
-                left-0
-                flex
-                w-full
-                justify-center
-                gap-2
-                text-sm
-                sm:text-base
-              "
-            >
-              <p className="text-black">Don&apos;t have an account?</p>
-
-              <Link
-                href="/pages/signup"
-                className="text-blue-700 hover:underline"
-              >
-                Signup
-              </Link>
-            </div>
           </div>
 
-          {/* Right Side */}
-          <div
-            className="
-              hidden
-              h-full
-              w-1/2
-              flex-col
-              items-center
-              justify-center
-              bg-blue-100
-              px-10
-              md:flex
-            "
+          <button
+            onClick={handleLogin}
+            className="w-full rounded-xl bg-black py-3 text-sm font-semibold text-white transition hover:bg-gray-800 active:scale-[0.98]"
           >
-            <div className="w-[75%]">
-              <Lottie animationData={groovyWalkAnimation} loop />
-            </div>
+            Sign in
+          </button>
 
-            <p className="mt-6 max-w-[450px] text-center font-semibold text-black">
-              Welcome to our notes website! Safeguard your thoughts with ease as
-              you unlock your personalized space on our secure platform,
-              tailored just for you.
-            </p>
+          <p className="mt-6 text-center text-sm text-gray-500">
+            Don&apos;t have an account?{" "}
+            <Link href="/pages/signup" className="font-semibold text-black hover:underline">
+              Sign up
+            </Link>
+          </p>
+        </div>
+
+        {/* Illustration side */}
+        <div className="hidden md:flex flex-col items-center justify-center bg-gray-900 w-1/2 px-10 py-12">
+          <div className="w-3/4">
+            <Lottie animationData={groovyWalkAnimation} loop />
           </div>
+          <p className="mt-6 text-center text-sm leading-relaxed text-gray-400 max-w-xs">
+            Capture and organize your thoughts, ideas, and reminders — all in one place.
+          </p>
         </div>
       </div>
 
-      <AutohideSnackbar message="User Logged In Successfully" state={open} />
-
-      <AutohideSnackbarError message="User Not Found" state={openError} />
+      <AutohideSnackbar message="Logged in successfully" state={open} />
+      <AutohideSnackbarError message="Invalid email or password" state={openError} />
     </div>
   );
 }
