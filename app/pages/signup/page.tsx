@@ -33,7 +33,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#f7f7f5] flex items-center justify-center px-4 py-10">
+    <div onKeyDown={(e) => e.key === "Enter" && handleSignUp()} className="min-h-screen w-full bg-[#f7f7f5] flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-5xl overflow-hidden rounded-3xl shadow-xl flex flex-col md:flex-row">
 
         {/* Illustration side */}
