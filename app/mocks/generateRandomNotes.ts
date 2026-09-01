@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { Note } from '../core/types';
 import { Color } from '../core/types';
-import { time } from 'console';
 
 export const generateRandomNotes = (length:number):Note[]=>{
     const notes :Note[] =[];

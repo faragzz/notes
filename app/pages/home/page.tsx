@@ -18,33 +18,24 @@ const Home = () => {
   const userEmail: string = cookies.get("email") || "";
 
   useEffect(() => {
-    // const fetchUserNotes = async () => {
-    //   setLoading(true);
-    //   try {
-    //     const fetchedNotes = (await getUserNotes(userEmail)) as Note[];
-    //     console.log("email sent = ", userEmail);
-    //     setNotes(fetchedNotes);
-    //     console.log('notes =',notes);
-    //     setError("");
-    //     console.log(fetchedNotes);
-    //   } catch (error) {
-    //     console.error("Failed to fetch notes:", error);
-    //     setError("Failed to fetch notes. Please try again.");
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
+    const fetchUserNotes = async () => {
+      setLoading(true);
+      try {
+        const res = await getUserNotes(userEmail);
+        setNotes(res.notes);
+        setError("");
+      } catch (error) {
+        console.error("Failed to fetch notes:", error);
+        setError("Failed to fetch notes. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    // fetchUserNotes();
+    fetchUserNotes();
+  }, [userEmail]);
 
-    getUserNotes(userEmail).then((res)=>{
-      setNotes(res.notes)
-    });
-  }, []);
-
-
-  // const isNotEmpty = notes.length < 1;
-  // if (isNotEmpty) return;
+  const isEmpty = !loading && !error && notes.length < 1;
 
   return (
     <>
@@ -56,14 +47,14 @@ const Home = () => {
               <div className="flex items-center mt-10 hover:bg-gray-200 rounded-xl p-4">
                 <BiSolidCalendarEdit className="text-black" size={20} />
                 <p className="text-black font-semibold text-sm ml-2">
-                  Add new Book
+                  Add new note
                 </p>
               </div>
             </Link>
             <div className="flex items-center hover:bg-gray-200 rounded-xl mt-8 p-4">
               <BiSolidNotepad className="text-black" size={20} />
               <p className="text-black font-semibold text-sm ml-2">
-                Show All Books
+                Show all notes
               </p>
             </div>
           </div>
@@ -71,20 +62,22 @@ const Home = () => {
             <BasicDateCalendar />
           </div> */}
         </div>
-        <div className="flex flex-wrap gap-4 p-4 w-full h-full rounded-tl-3xl bg-gray-200 overflow-auto">
+        <div className="flex flex-wrap gap-4 p-4 w-full h-full rounded-tl-3xl bg-gray-200 overflow-auto content-start">
           {loading ? (
-            <p>Loading...</p>
+            <p className="text-black">Loading...</p>
           ) : error ? (
-            <p>{error}</p>
+            <p className="text-black">{error}</p>
+          ) : isEmpty ? (
+            <p className="text-black">No notes yet. Add your first one.</p>
           ) : (
-            notes.map((note, index) => (
+            notes.map((note) => (
               <Card
                 color={note.color}
                 title={note.title}
                 content={note.content}
                 date={note.date.toString()}
                 id={note.id}
-                key={index}
+                key={note.id}
               />
             ))
           )}

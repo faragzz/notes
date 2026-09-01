@@ -24,32 +24,97 @@ export const Card = ({ color, title, content, date, id }: Props) => {
       href={{
         pathname: "/pages/note/edit",
         query: {
-          color: color,
-          title: title,
-          content: content,
-          formattedDate: formattedDate,
-          id: id,
+          color,
+          title,
+          content,
+          formattedDate,
+          id,
         },
+      }}
+      style={{
+        display: "block",
+        width: "240px",
+        height: "240px",
       }}
     >
       <div
-        className={`relative ${color} w-60 h-60 rounded-xl text-black p-4`}
+        className={`${color}`}
+        style={{
+          width: "100%",
+          height: "100%",
+          padding: "16px",
+          borderRadius: "12px",
+          color: "black",
+          overflow: "hidden",
+          boxSizing: "border-box",
+        }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         {isHovered ? (
           <div className="flex justify-center items-center w-full h-full gap-2">
             <MdEdit />
-            <p className="">Edit Book</p>
+            <p>Edit Note</p>
           </div>
         ) : (
-          <div className="flex flex-col w-full h-full">
-            <div className="flex-grow-1">
-              <p className="font-bold pb-2">{title}</p>
-              <p>{content}</p>
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              minWidth: 0,
+            }}
+          >
+            <div
+              style={{
+                flex: 1,
+                minWidth: 0,
+                overflow: "hidden",
+              }}
+            >
+              <p
+                style={{
+                  fontWeight: "bold",
+                  paddingBottom: "8px",
+                  margin: 0,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {title}
+              </p>
+
+              <p
+                style={{
+                  margin: 0,
+                  overflow: "hidden",
+                  display: "-webkit-box",
+                  WebkitBoxOrient: "vertical",
+                  WebkitLineClamp: 6,
+                  overflowWrap: "anywhere",
+                  wordBreak: "break-word",
+                }}
+              >
+                {content}
+              </p>
             </div>
-            <div className="mt-auto">
-              <p className="text-black self-end text-right">{formattedDate}</p>
+
+            <div
+              style={{
+                paddingTop: "8px",
+                flexShrink: 0,
+              }}
+            >
+              <p
+                style={{
+                  margin: 0,
+                  textAlign: "right",
+                }}
+              >
+                {formattedDate}
+              </p>
             </div>
           </div>
         )}

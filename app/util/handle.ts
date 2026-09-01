@@ -17,7 +17,6 @@ export const signUpUser = async (userInfo: UserSignUpInfo) => {
       body: JSON.stringify(userInfo),
     });
     const responseData: User = await response.json();
-    console.log(responseData);
     return response;
   } catch (error) {
     console.error("Error creating user:", error);
@@ -25,7 +24,7 @@ export const signUpUser = async (userInfo: UserSignUpInfo) => {
 };
 
 export const loginUser = async (
-  userInfo: UserLoginInfo
+  userInfo: UserLoginInfo,
 ): Promise<User | undefined> => {
   try {
     const response = await fetch("/api/userlogin", {
@@ -84,7 +83,6 @@ export const getUserNotes = async (email: string) => {
   // }
 
   const responseData = await response.json();
-  console.log('response server =',responseData);
   return responseData;
   // } catch (error) {
   //   console.error("Error when getting user notes:", error);
