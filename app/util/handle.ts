@@ -89,6 +89,14 @@ export const getUserNotes = async (email: string) => {
   //   return [noteDefualt];
   // }
 };
+export const deleteNote = async (noteId: string) => {
+  await fetch("/api/deleteNote", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ noteId }),
+  });
+};
+
 export const editNote = async (data: editNoteType) => {
   try {
     const response = await fetch("/api/editNote", {

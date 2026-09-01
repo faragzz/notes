@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import ColorPalettes from "./colorPalettes";
 import AutohideSnackbar from "./AutohideSnackbar";
-import { MdClose } from "react-icons/md";
+import { MdClose, MdDeleteOutline } from "react-icons/md";
 import { Color } from "@/app/core/types";
-import { addUserNote, editNote } from "@/app/util/handle";
+import { addUserNote, editNote, deleteNote } from "@/app/util/handle";
 import { Note } from "@prisma/client";
 
 type Props = {
@@ -17,6 +17,7 @@ type Props = {
   initialColor?: string;
   onClose: () => void;
   onSaved: () => void;
+  onDeleted?: () => void;
 };
 
 const NoteEditor = ({
@@ -28,12 +29,14 @@ const NoteEditor = ({
   initialColor = "bg-yellow-100",
   onClose,
   onSaved,
+  onDeleted,
 }: Props) => {
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
   const [bgColor, setBgColor] = useState(initialColor);
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const note: Omit<Note, "id"> = {
     title,
@@ -57,6 +60,11 @@ const NoteEditor = ({
       setSaving(false);
       onSaved();
     }, 800);
+  };
+
+  const handleDelete = async () => {
+    await deleteNote(noteId);
+    onDeleted?.();
   };
 
   return (
@@ -100,13 +108,42 @@ const NoteEditor = ({
         {/* Footer */}
         <div className="flex items-center justify-between gap-4">
           <ColorPalettes colors={Color} onClickHandle={setBgColor} />
-          <button
-            onClick={handleSave}
-            disabled={saving || !title.trim()}
-            className="bg-black text-white font-semibold px-8 py-3 rounded-xl hover:bg-black/80 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-          >
-            {saving ? "Saving..." : "Save"}
-          </button>
+          <div className="flex items-center gap-2">
+            {mode === "edit" && (
+              confirmDelete ? (
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-black/60">Delete?</span>
+                  <button
+                    onClick={handleDelete}
+                    className="bg-red-500 text-white text-sm font-semibold px-4 py-3 rounded-xl hover:bg-red-600 transition-colors"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    onClick={() => setConfirmDelete(false)}
+                    className="bg-black/10 text-black text-sm font-semibold px-4 py-3 rounded-xl hover:bg-black/20 transition-colors"
+                  >
+                    No
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setConfirmDelete(true)}
+                  className="p-3 rounded-xl hover:bg-black/10 transition-colors"
+                  title="Delete note"
+                >
+                  <MdDeleteOutline size={22} className="text-black/50" />
+                </button>
+              )
+            )}
+            <button
+              onClick={handleSave}
+              disabled={saving || !title.trim()}
+              className="bg-black text-white font-semibold px-8 py-3 rounded-xl hover:bg-black/80 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            >
+              {saving ? "Saving..." : "Save"}
+            </button>
+          </div>
         </div>
 
         <AutohideSnackbar state={open} message="Note saved successfully" />

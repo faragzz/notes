@@ -124,6 +124,14 @@ export const addNote = async (userInfo: addNoteInfo) => {
   }
 };
 
+export const deleteUserNote = async (noteId: string) => {
+  try {
+    await prisma.note.delete({ where: { id: noteId } });
+  } catch (error) {
+    console.error("Error deleting note:", error);
+  }
+};
+
 export const editUserNote = async (data: editNoteType) => {
   try {
     await prisma.note.update({

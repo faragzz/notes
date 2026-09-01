@@ -3,7 +3,7 @@
 import { Card } from "@/app/components/card";
 import NavBar from "@/app/components/navBar";
 import NoteEditor from "@/app/components/NoteEditor";
-import { getUserNotes } from "@/app/util/handle";
+import { deleteNote, getUserNotes } from "@/app/util/handle";
 import { Note } from "@prisma/client";
 import { useCookies } from "next-client-cookies";
 import { useEffect, useState } from "react";
@@ -133,6 +133,7 @@ const Home = () => {
                   date={note.date.toString()}
                   id={note.id}
                   onClick={() => setEditNote(note)}
+                  onDelete={async () => { await deleteNote(note.id); fetchNotes(); }}
                 />
               ))}
             </div>
@@ -167,6 +168,7 @@ const Home = () => {
           initialColor={editNote.color}
           onClose={() => setEditNote(null)}
           onSaved={() => { setEditNote(null); fetchNotes(); }}
+          onDeleted={() => { setEditNote(null); fetchNotes(); }}
         />
       )}
     </div>
